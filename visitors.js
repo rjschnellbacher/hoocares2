@@ -13,6 +13,7 @@
   timestamp
   office = str (location)
   program = str
+  reason = str
   status = str (waiting/done/in progress/next)
 
  */
