@@ -1,16 +1,16 @@
 if (Meteor.isClient) {
-  Session.setDefault('choice', '');
+  Session.setDefault('program', '');
   Session.setDefault('reason', '');
 
   Template.getStarted.helpers({
-    choice: function() {
-      return Session.get('choice');
+    program: function() {
+      return Session.get('program');
     },
   });
 
   Template.getStarted.events({
     'click div.clickable': function (e) {
-      Session.set('choice', e.target.innerHTML);
+      Session.set('program', e.target.innerHTML);
     }
   });
 

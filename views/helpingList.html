@@ -1,0 +1,22 @@
+<template name="helpingList">
+  <table class="bordered striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Program</th>
+        <th>Reason</th>
+        <th>Being Helped By</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each visitors}}
+        <tr>
+          <td>{{first_name}} {{last_name}}</td>
+          <td>{{program}}</td>
+          <td>{{reason}}</td>
+          <td>{{employee}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>
