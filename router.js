@@ -6,6 +6,10 @@ Router.route('/reason', function() {
   this.render('reason');
 });
 
+Router.route('/contactInfo', function() {
+  this.render('contactInfo');
+});
+
 Router.route('/employee', function () {
   this.render('employee');
 });
