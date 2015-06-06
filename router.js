@@ -1,5 +1,5 @@
 Router.route('/', function () {
-  this.render('signin');
+  this.render('getStarted');
 });
 
 Router.route('/employee', function () {

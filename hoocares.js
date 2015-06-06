@@ -1,17 +1,16 @@
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
+  Session.setDefault('choice', '');
 
-  Template.visitor.helpers({
-    counter: function () {
-      return Session.get('counter');
+  Template.getStarted.helpers({
+    choice: function () {
+      return Session.get('choice');
     }
   });
 
-  Template.visitor.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
+  Template.getStarted.events({
+    'click div.clickable': function (e) {
+      e.preventDefault()
+      Session.set('choice', e.target.innerHTML);
     }
   });
 }
