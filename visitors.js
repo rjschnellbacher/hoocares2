@@ -4,8 +4,14 @@
   last_name = str
   addr1 = str
   addr2 = str
-  zip = int
-  dob = date
+  zip = str
+  dob = str
+  ssn = str
+  medicaid = str
+  timestamp
+  office = str (location)
+  program = str
+  status = str (waiting/done/in progress/next)
 
  */
 
@@ -20,18 +26,26 @@ Visitors.helpers({
     return Visitors.update(this._id, data);
   },
 
-  markDone: function () {
-    this.update({ isDone: true });
+  setWaiting: function () {
+    this.update({ status: "waiting" });
+  },
+
+  setDone: function () {
+    this.update({ status: "done" });
+  },
+
+  setInProgress: function () {
+    this.update({ status: "in progress" });
+  },
+
+  setNext: function () {
+    this.update({ status: "next" });
   }
 });
 
-Visitors.create = function(str, obj) {
-  if(typeof(str) === 'object') {
-    obj = str;
-    str = '';
-  }
-
-  // stuff
+Visitors.create = function(obj) {
+  obj["timestamp"] = new Date();
+  obj["office"] = "here";
   
-  return; //Visitors.insert(obj);
+  return Visitors.insert(obj);
 };
