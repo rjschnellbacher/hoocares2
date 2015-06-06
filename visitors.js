@@ -4,6 +4,8 @@
   last_name = str
   addr1 = str
   addr2 = str
+  city = str
+  state = str
   zip = str
   dob = str
   ssn = str
