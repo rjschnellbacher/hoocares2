@@ -14,6 +14,15 @@ Router.route('/employee', function () {
   this.render('employee');
 });
 
+Router.route('/visitorList', function() {
+  this.render('visitorList');
+});
+
+
+Router.route('/thankYou', function() {
+  this.render('thankYou', {data: { subtitle: 'Thank you for sending your information!' }});
+})
+
 // Router.route('/items/:_id', function () {
 //   var item = Items.findOne({_id: this.params._id});
 //   this.render('ShowItem', {data: item});
