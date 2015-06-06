@@ -1,13 +1,13 @@
 Router.route('/', function () {
-  this.render('getStarted');
+  this.render('getStarted', {data: { subtitle: 'What program are you here for today?' }});
 });
 
 Router.route('/reason', function() {
-  this.render('reason');
+  this.render('reason', {data: { subtitle: 'What brings you here today?' }});
 });
 
 Router.route('/contactInfo', function() {
-  this.render('contactInfo');
+  this.render('contactInfo', {data: { subtitle: 'Could you please fill out your contact information?' }});
 });
 
 Router.route('/employee', function () {
