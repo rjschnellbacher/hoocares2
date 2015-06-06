@@ -9,7 +9,6 @@ if (Meteor.isClient) {
 
   Template.getStarted.events({
     'click div.clickable': function (e) {
-      e.preventDefault()
       Session.set('choice', e.target.innerHTML);
     }
   });
