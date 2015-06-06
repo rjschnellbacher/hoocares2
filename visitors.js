@@ -1,8 +1,16 @@
-Visitors = new Mongo.Collection('Visitors');
+/*
 
-Visitors.before.insert(function(uid, doc) {
-  return doc;
-});
+  first_name = str
+  last_name = str
+  addr1 = str
+  addr2 = str
+  zip = int
+  dob = date
+
+ */
+
+
+Visitors = new Mongo.Collection('Visitors');
 
 Visitors.helpers({
   update: function (data) {
@@ -23,6 +31,7 @@ Visitors.create = function(str, obj) {
     str = '';
   }
 
-
-  return Visitors.insert(obj);
+  // stuff
+  
+  return; //Visitors.insert(obj);
 };
