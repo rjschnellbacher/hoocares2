@@ -1,18 +1,26 @@
-function submitInfo() {
-	var obj = {};
-	obj["first_name"] = $("#first_name").value;
-	obj["last_name"] = $("#last_name").value;
-	obj["addr1"] = $("#address_1").value;
-	obj["addr2"] = $("#address_2").value;
-	obj["city"] = $("#city").value;
-	obj["state"] = $("#state").value;
-	obj["zip"] = $("#zip").value;
-	obj["ssn"] = $("#ssn").value;
-	obj["dob"] = $("#dob").value;
-	obj["addr2"] = $("#address_2").value;
+if(Meteor.isClient) {
+	Template.contactInfo.events({
 
-	obj["program"] = Session.get("program");
-	obj["reason"] = Session.get("reason");
+		'click #submit': function (e) {
+			e.preventDefault();
+	    var obj = {};
+			obj["first_name"] = $("#first_name").val();
+			obj["last_name"] = $("#last_name").val();
+			obj["addr1"] = $("#address_1").val();
+			obj["addr2"] = $("#address_2").val();
+			obj["city"] = $("#city").val();
+			obj["state"] = $("#state").val();
+			obj["zip"] = $("#zip").val();
+			obj["ssn"] = $("#ssn").val();
+			obj["dob"] = $("#dob").val();
+			obj["addr2"] = $("#address_2").val();
 
-	Visitors.create(obj);
+			obj["program"] = Session.get("program");
+			obj["reason"] = Session.get("reason");
+
+			console.log("Visitor obj: ", obj);
+
+			Visitors.create(obj);
+	  }
+	});
 }

@@ -47,8 +47,11 @@ Visitors.helpers({
 });
 
 Visitors.create = function(obj) {
+  console.log("Creating Visitor");
   obj["timestamp"] = new Date();
   obj["office"] = "here";
   
+  console.log("Visitor obj: ", obj);
+
   return Visitors.insert(obj);
 };
