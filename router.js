@@ -2,6 +2,10 @@ Router.route('/', function () {
   this.render('getStarted');
 });
 
+Router.route('/reason', function() {
+  this.render('reason');
+});
+
 Router.route('/employee', function () {
   this.render('employee');
 });
