@@ -11,14 +11,16 @@
       </div>
     </div>
   </div>
-  <div class="container" id="employee">
-    <div class="row">
-      <h4>Waiting List</h4>
-      {{> visitorList}}
+  {{#if currentUser}}
+    <div class="container" id="employee">
+      <div class="row">
+        <h4>Waiting List</h4>
+        {{> visitorList}}
+      </div>
+      <div class="row">
+        <h4>Currently Helping</h4>
+        {{> helpingList}}
+      </div>
     </div>
-    <div class="row">
-      <h4>Currently Helping</h4>
-      {{> helpingList}}
-    </div>
-  </div>
+  {{/if}}
 </template>
