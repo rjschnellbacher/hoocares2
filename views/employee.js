@@ -54,6 +54,10 @@ if (Meteor.isClient) {
       ];
     },
   });
+
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
+  });
 }
 
 if (Meteor.isServer) {
@@ -61,3 +65,8 @@ if (Meteor.isServer) {
     // code to run on server at startup
   });
 }
+
+Accounts.config({
+  forbidClientAccountCreation: true,
+  loginExpirationInDays: 1
+});

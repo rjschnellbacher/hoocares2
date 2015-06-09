@@ -9,3 +9,5 @@ insecure
 iron:router
 dburles:collection-helpers
 jquery
+accounts-ui
+accounts-password
