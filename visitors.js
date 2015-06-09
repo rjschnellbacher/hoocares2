@@ -47,10 +47,6 @@ Visitors.helpers({
 
 Meteor.methods({
   addVisitor: function(obj) {
-    if (!Meteor.userId()) {
-      throw new Meteor.Error('not authorized');
-    }
-
     obj["timestamp"] = new Date();
     obj["office"] = "here";
 
