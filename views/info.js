@@ -18,9 +18,8 @@ if(Meteor.isClient) {
 			obj["program"] = Session.get("program");
 			obj["reason"] = Session.get("reason");
 
-			console.log("Visitor obj: ", obj);
-
-			Visitors.create(obj);
+			Meteor.call('addVisitor', obj);
+      Router.go('/thankYou')
 	  }
 	});
 }

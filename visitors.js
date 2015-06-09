@@ -18,7 +18,6 @@
 
  */
 
-
 Visitors = new Mongo.Collection('Visitors');
 
 Visitors.helpers({
@@ -46,12 +45,15 @@ Visitors.helpers({
   }
 });
 
-Visitors.create = function(obj) {
-  console.log("Creating Visitor");
-  obj["timestamp"] = new Date();
-  obj["office"] = "here";
-  
-  console.log("Visitor obj: ", obj);
+Meteor.methods({
+  addVisitor: function(obj) {
+    if (!Meteor.userId()) {
+      throw new Meteor.Error('not authorized');
+    }
 
-  return Visitors.insert(obj);
-};
+    obj["timestamp"] = new Date();
+    obj["office"] = "here";
+
+    return Visitors.insert(obj);
+  }
+});
