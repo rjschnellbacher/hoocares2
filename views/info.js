@@ -26,6 +26,9 @@ if(Meteor.isClient) {
 			console.log("Visitor obj: ", obj);
 
 			Visitors.insert(obj);
+
+			Meteor.call('addVisitor', obj);
+      Router.go('/thankYou')
 	  }
 	});
 }
