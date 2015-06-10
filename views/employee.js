@@ -1,62 +1,26 @@
 if (Meteor.isClient) {
+  if (Meteor.userId()) Meteor.subscribe("visitors");
+
   Template.visitorList.helpers({
     visitors: function() {
-      return [
-        {
-          first_name: 'John',
-          last_name: 'Doe',
-          program: 'TANF',
-          reason: 'Applying for Services',
-          status: 'Waiting'
-        },
-        {
-          first_name: 'Jane',
-          last_name: 'Doe',
-          program: 'SNAP',
-          reason: 'Applying for Services',
-          status: 'Waiting'
-        },
-        {
-          first_name: 'Jerry',
-          last_name: 'Doe',
-          program: 'Medicaid',
-          reason: 'Applying for Services',
-          status: 'Waiting'
-        },
-      ];
-    },
+      return Visitors.find({ status: 'waiting' });
+    }
   });
 
   Template.helpingList.helpers({
     visitors: function() {
-      return [
-        {
-          first_name: 'John',
-          last_name: 'Doe',
-          program: 'TANF',
-          reason: 'Applying for Services',
-          employee: 'Francis Bacon'
-        },
-        {
-          first_name: 'Jane',
-          last_name: 'Doe',
-          program: 'SNAP',
-          reason: 'Applying for Services',
-          employee: 'Jon Keats'
-        },
-        {
-          first_name: 'Jerry',
-          last_name: 'Doe',
-          program: 'Medicaid',
-          reason: 'Applying for Services',
-          employee: 'Walt Whitman'
-        },
-      ];
-    },
+      return Visitors.find({ status: 'in progress' });
+    }
   });
 
   Accounts.ui.config({
     passwordSignupFields: "USERNAME_ONLY"
+  });
+}
+
+if (Meteor.isServer) {
+  Meteor.publish("visitors", function () {
+    return Visitors.find();
   });
 }
 

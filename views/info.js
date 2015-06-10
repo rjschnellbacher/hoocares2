@@ -18,6 +18,15 @@ if(Meteor.isClient) {
 			obj["program"] = Session.get("program");
 			obj["reason"] = Session.get("reason");
 
+			obj["timestamp"] = new Date();
+		  obj["office"] = "here";
+
+		  obj["status"] = "waiting";
+
+			console.log("Visitor obj: ", obj);
+
+			Visitors.insert(obj);
+
 			Meteor.call('addVisitor', obj);
       Router.go('/thankYou')
 	  }
