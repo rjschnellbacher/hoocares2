@@ -15,6 +15,9 @@ if(Meteor.isClient) {
 			obj["dob"] = $("#dob").val();
 			obj["addr2"] = $("#address_2").val();
 
+			console.log("Session.get('program'): ", Session.get('program'));
+			console.log("Session.get('reason'): ", Session.get('reason'));
+
 			obj["program"] = Session.get("program");
 			obj["reason"] = Session.get("reason");
 
