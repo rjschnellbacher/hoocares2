@@ -43,6 +43,10 @@ Visitors.helpers({
 
   setNext: function () {
     this.update({ status: "next" });
+  },
+
+  isOwner: function () {
+    return this.owner === Meteor.userId();
   }
 });
 
