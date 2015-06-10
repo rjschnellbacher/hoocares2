@@ -4,9 +4,7 @@ if(Meteor.isClient) {
 		'click .program-button': function (e) {
 			e.preventDefault();
 
-			console.log("e: ", e);
-	    Session.set("program",this.value);
-	    console.log("Session.get('program'): ", Session.get('program'));
+	    Session.set("program",e.target.innerText);
 
 	    Router.go("/reason");
 	  }
