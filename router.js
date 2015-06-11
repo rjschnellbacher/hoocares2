@@ -1,11 +1,14 @@
 Router.route('/', function () {
 	Session.set("office", "");
+	
   this.render('getStarted', {data: { subtitle: 'What program are you here for today?', location: 'Indiana' }});
 });
 
 Router.route('/loc/:loc', function () {
 	Session.set("office", this.params.loc);
-  this.render('getStarted', {data: { subtitle: 'What program are you here for today?', location: this.params.loc }});
+
+	// Maybe sometime set  location: this.params.loc  to see the office you're at
+  this.render('getStarted', {data: { subtitle: 'What program are you here for today?', location: 'Indiana' }});
 });
 
 Router.route('/reason', function() {

@@ -5,6 +5,7 @@ Template.contactInfo.events({
     var info = {};
     var obj = {};
 
+    // Visitor.info to keep input data separate from system tracking data
     info["first_name"] = $("#first_name").val();
     info["last_name"] = $("#last_name").val();
     info["addr1"] = $("#address_1").val();
@@ -17,13 +18,13 @@ Template.contactInfo.events({
     info["dob"] = $("#dob").val();
 
     obj["info"] = info;
+
     obj["program"] = Session.get("program");
     obj["reason"] = Session.get("reason");
     obj["office"] = Session.get("office");
 
-    Visitors.create(obj);
-
     Meteor.call('addVisitor', obj);
+
     Router.go('/thankYou');
   }
 });

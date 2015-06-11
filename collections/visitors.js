@@ -28,7 +28,7 @@
 Visitors = new Mongo.Collection('Visitors');
 
 Visitors.helpers({
-  updateVisitor: function (data) {
+  update: function (data) {
     if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
       data = { $set: data };
 
@@ -36,17 +36,20 @@ Visitors.helpers({
   },
 
   setWaiting: function () {
-    console.log("this: ", this);
     var audit_log;
 
+    // undefined.push() is not a function... surprise
     if (!this.audit_log)
       audit_log = [{ timestamp: new Date(), office: this.office, status: 'waiting' }];
-    else
+    else {
       audit_log = this.audit_log;
+      audit_log.push({ timestamp: new Date(), office: this.office, status: 'waiting' });
+    }
 
-    audit_log.push({ timestamp: new Date(), office: this.office, status: 'waiting' });
-    this.updateVisitor({ status: 'waiting' });
-    this.updateVisitor({ audit_log: audit_log });
+    this.update({ status: 'waiting' });
+    this.update({ audit_log: audit_log });
+    
+    return this;
   },
 
   setDone: function (emp) {
@@ -54,8 +57,11 @@ Visitors.helpers({
 
     var audit_log = this.audit_log;
     audit_log.push({ timestamp: new Date(), office: this.office, old_status: 'in progress', status: 'done', employee: emp });
+    
     this.update({ status: 'done' });
     this.update({ audit_log: audit_log });
+    
+    return this;
   },
 
   setInProgress: function (emp) {
@@ -63,12 +69,15 @@ Visitors.helpers({
     
     var audit_log = this.audit_log;
     audit_log.push({ timestamp: new Date(), office: this.office, old_status: 'waiting', status: 'in progress', employee: emp });
+    
     this.update({ status: 'in progress' });
     this.update({ audit_log: audit_log });
+    
+    return this;
   },
 
   setNext: function () {
-    this.update({ status: 'next' });
+    return this.update({ status: 'next' });
   },
 
   isOwner: function () {
@@ -77,10 +86,13 @@ Visitors.helpers({
 });
 
 Meteor.methods({
-  create: function(obj) {
-    var visitor = Visitors.insert(obj);
-    visitor.setWaiting();
+  addVisitor: function(obj) {
+    console.log("CREATE");
+    var visitor_id = Visitors.insert(obj);
+    var visitor = Visitors.findOne(visitor_id);
+    console.log("visitor: ", visitor);
 
-    return ;
+    // FIX: Doesn't appear that setWaiting is working...
+    return visitor.setWaiting();
   }
 });
