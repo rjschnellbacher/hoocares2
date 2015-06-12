@@ -1,13 +1,19 @@
 Router.route('/', function () {
-  this.render('getStarted', {data: { subtitle: 'What program are you here for today?' }});
+	Session.set("office", "");
+  this.render('getStarted', {data: { subtitle: 'What program are you here for today?', location: 'Indiana' }});
+});
+
+Router.route('/loc/:loc', function () {
+	Session.set("office", this.params.loc);
+  this.render('getStarted', {data: { subtitle: 'What program are you here for today?', location: this.params.loc }});
 });
 
 Router.route('/reason', function() {
-  this.render('reason', {data: { subtitle: 'What brings you here today?' }});
+  this.render('reason', {data: { subtitle: 'What brings you here today?', location: 'Indiana' }});
 });
 
 Router.route('/contactInfo', function() {
-  this.render('contactInfo', {data: { subtitle: 'Could you please fill out your contact information?' }});
+  this.render('contactInfo', {data: { subtitle: 'Could you please fill out your contact information?', location: 'Indiana' }});
 });
 
 Router.route('/employee', function () {
@@ -20,7 +26,7 @@ Router.route('/visitorList', function() {
 
 
 Router.route('/thankYou', function() {
-  this.render('thankYou', {data: { subtitle: 'Thank you for sending your information!' }});
+  this.render('thankYou', {data: { subtitle: 'Thank you for sending your information!', location: 'Indiana' }});
 })
 
 // Router.route('/items/:_id', function () {
