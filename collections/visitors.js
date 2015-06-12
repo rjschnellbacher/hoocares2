@@ -24,10 +24,11 @@
   ]
 
  */
+Visitor = function(doc) {
+  _.extend(this, doc);
+};
 
-Visitors = new Mongo.Collection('Visitors');
-
-Visitors.helpers({
+_.extend(Visitor.prototype, {
   updateVisitor: function (data) {
     if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
       data = { $set: data };
@@ -36,39 +37,23 @@ Visitors.helpers({
   },
 
   setWaiting: function () {
-    console.log("this: ", this);
-    var audit_log;
-
-    if (!this.audit_log)
-      audit_log = [{ timestamp: new Date(), office: this.office, status: 'waiting' }];
-    else
-      audit_log = this.audit_log;
-
-    audit_log.push({ timestamp: new Date(), office: this.office, status: 'waiting' });
-    this.updateVisitor({ status: 'waiting' });
-    this.updateVisitor({ audit_log: audit_log });
+    var auditLogEntry = { timestamp: new Date(), office: this.office, status: 'waiting' };
+    Visitors.update({_id: this._id}, { $set: { status: 'waiting' }, $push: { audit_log: auditLogEntry }});
   },
 
   setDone: function (emp) {
-    if (this.audit_log === null)  this.audit_log = [];
-
-    var audit_log = this.audit_log;
-    audit_log.push({ timestamp: new Date(), office: this.office, old_status: 'in progress', status: 'done', employee: emp });
-    this.update({ status: 'done' });
-    this.update({ audit_log: audit_log });
+    var auditLogEntry = { timestamp: new Date(), office: this.office, old_status: 'in progress', status: 'done', employee: emp };
+    Visitors.update({_id: this._id}, { $set: { status: 'done' }, $push: { audit_log: auditLogEntry }});
   },
 
   setInProgress: function (emp) {
-    if (this.audit_log === null)  this.audit_log = [];
-    
-    var audit_log = this.audit_log;
-    audit_log.push({ timestamp: new Date(), office: this.office, old_status: 'waiting', status: 'in progress', employee: emp });
-    this.update({ status: 'in progress' });
-    this.update({ audit_log: audit_log });
+    var auditLogEntry = { timestamp: new Date(), office: this.office, old_status: 'waiting', status: 'in progress', employee: emp };
+    Visitors.update({_id: this._id}, { $set: { status: 'in progress' }, $push: { audit_log: auditLogEntry }});
   },
 
   setNext: function () {
     this.update({ status: 'next' });
+    Visitors.update({_id: this._id}, { $set: { status: 'next' }});
   },
 
   isOwner: function () {
@@ -76,11 +61,33 @@ Visitors.helpers({
   }
 });
 
-Meteor.methods({
-  create: function(obj) {
-    var visitor = Visitors.insert(obj);
-    visitor.setWaiting();
+Visitors = new Mongo.Collection('Visitors', {
+  transform: function(doc) { return new Visitor(doc); }
+});
 
-    return ;
+Meteor.methods({
+  addVisitor: function(obj) {
+    obj.status = 'waiting';
+    var visitorId = Visitors.insert(obj);
+    return visitorId;
+  },
+
+  setInProgress: function(id, currentUser) {
+    var visitor = Visitors.findOne(id);
+    visitor.setInProgress(currentUser);
+    return visitor;
+  },
+
+  setWaiting: function(id) {
+    var visitor = Visitors.findOne(id);
+    visitor.setWaiting();
+    return visitor;
+  },
+
+  setDone: function(id, currentUser) {
+    var visitor = Visitors.findOne(id);
+    visitor.setDone(currentUser);
+    return visitor;
   }
+
 });

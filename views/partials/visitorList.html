@@ -12,11 +12,11 @@
     <tbody>
       {{#each visitors}}
         <tr>
-          <td>{{first_name}} {{last_name}}</td>
+          <td>{{info.first_name}} {{info.last_name}}</td>
           <td>{{program}}</td>
           <td>{{reason}}</td>
           <td>{{status}}</td>
-          <td><a class="btn-floating"><i class="mdi-content-add"></i></a></td>
+          <td><a id="help-next" class="btn">Help Next</a></td>
         </tr>
       {{/each}}
     </tbody>
