@@ -24,11 +24,12 @@
   ]
 
  */
+Visitor = function(doc) {
+  _.extend(this, doc);
+};
 
-Visitors = new Mongo.Collection('Visitors');
-
-Visitors.helpers({
-  update: function (data) {
+_.extend(Visitor.prototype, {
+  updateVisitor: function (data) {
     if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
       data = { $set: data };
 
@@ -36,63 +37,61 @@ Visitors.helpers({
   },
 
   setWaiting: function () {
-    var audit_log;
-
-    // undefined.push() is not a function... surprise
-    if (!this.audit_log)
-      audit_log = [{ timestamp: new Date(), office: this.office, status: 'waiting' }];
-    else {
-      audit_log = this.audit_log;
-      audit_log.push({ timestamp: new Date(), office: this.office, status: 'waiting' });
-    }
-
-    this.update({ status: 'waiting' });
-    this.update({ audit_log: audit_log });
-    
-    return this;
+    this.updateStatus('waiting')
+    var auditLogEntry = { timestamp: new Date(), office: this.office, status: 'waiting' };
+    Visitors.update({_id: this._id}, { $set: { status: 'waiting' }, $push: { audit_log: auditLogEntry }});
   },
 
   setDone: function (emp) {
-    if (this.audit_log === null)  this.audit_log = [];
-
-    var audit_log = this.audit_log;
-    audit_log.push({ timestamp: new Date(), office: this.office, old_status: 'in progress', status: 'done', employee: emp });
-    
-    this.update({ status: 'done' });
-    this.update({ audit_log: audit_log });
-    
-    return this;
+    this.updateStatus('done', emp)
   },
 
   setInProgress: function (emp) {
-    if (this.audit_log === null)  this.audit_log = [];
-    
-    var audit_log = this.audit_log;
-    audit_log.push({ timestamp: new Date(), office: this.office, old_status: 'waiting', status: 'in progress', employee: emp });
-    
-    this.update({ status: 'in progress' });
-    this.update({ audit_log: audit_log });
-    
-    return this;
+    this.updateStatus('in progress', emp)
   },
 
   setNext: function () {
-    return this.update({ status: 'next' });
+    this.update({ status: 'next' });
+    Visitors.update({_id: this._id}, { $set: { status: 'next' }});
   },
 
   isOwner: function () {
     return this.owner === Meteor.userId();
+  },
+
+  updateStatus: function(newStatus, employee) {
+    var auditLogEntry = { timestamp: new Date(), office: this.office, old_status: this.status, status: newStatus, employee: employee };
+    Visitors.update({_id: this._id}, { $set: { status: newStatus }, $push: { audit_log: auditLogEntry }});
   }
+});
+
+Visitors = new Mongo.Collection('Visitors', {
+  transform: function(doc) { return new Visitor(doc); }
 });
 
 Meteor.methods({
   addVisitor: function(obj) {
-    console.log("CREATE");
-    var visitor_id = Visitors.insert(obj);
-    var visitor = Visitors.findOne(visitor_id);
-    console.log("visitor: ", visitor);
+    obj.status = 'waiting';
+    var visitorId = Visitors.insert(obj);
+    return visitorId;
+  },
 
-    // FIX: Doesn't appear that setWaiting is working...
-    return visitor.setWaiting();
+  setInProgress: function(id, currentUser) {
+    var visitor = Visitors.findOne(id);
+    visitor.setInProgress(currentUser);
+    return visitor;
+  },
+
+  setWaiting: function(id) {
+    var visitor = Visitors.findOne(id);
+    visitor.setWaiting();
+    return visitor;
+  },
+
+  setDone: function(id, currentUser) {
+    var visitor = Visitors.findOne(id);
+    visitor.setDone(currentUser);
+    return visitor;
   }
+
 });
