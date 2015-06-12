@@ -6,15 +6,19 @@
         <th>Program</th>
         <th>Reason</th>
         <th>Being Helped By</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
       </tr>
     </thead>
     <tbody>
       {{#each visitors}}
         <tr>
-          <td>{{first_name}} {{last_name}}</td>
+          <td>{{info.first_name}} {{info.last_name}}</td>
           <td>{{program}}</td>
           <td>{{reason}}</td>
           <td>{{employee}}</td>
+          <td><a id="return-to-waiting" class="btn">Return to Waiting</a></td>
+          <td><a id="done-helping" class="btn">Done</a></td>
         </tr>
       {{/each}}
     </tbody>

@@ -21,8 +21,6 @@ Template.contactInfo.events({
     obj["reason"] = Session.get("reason");
     obj["office"] = Session.get("office");
 
-    Visitors.create(obj);
-
     Meteor.call('addVisitor', obj);
     Router.go('/thankYou');
   }
