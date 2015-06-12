@@ -37,18 +37,17 @@ _.extend(Visitor.prototype, {
   },
 
   setWaiting: function () {
+    this.updateStatus('waiting')
     var auditLogEntry = { timestamp: new Date(), office: this.office, status: 'waiting' };
     Visitors.update({_id: this._id}, { $set: { status: 'waiting' }, $push: { audit_log: auditLogEntry }});
   },
 
   setDone: function (emp) {
-    var auditLogEntry = { timestamp: new Date(), office: this.office, old_status: 'in progress', status: 'done', employee: emp };
-    Visitors.update({_id: this._id}, { $set: { status: 'done' }, $push: { audit_log: auditLogEntry }});
+    this.updateStatus('done', emp)
   },
 
   setInProgress: function (emp) {
-    var auditLogEntry = { timestamp: new Date(), office: this.office, old_status: 'waiting', status: 'in progress', employee: emp };
-    Visitors.update({_id: this._id}, { $set: { status: 'in progress' }, $push: { audit_log: auditLogEntry }});
+    this.updateStatus('in progress', emp)
   },
 
   setNext: function () {
@@ -58,6 +57,11 @@ _.extend(Visitor.prototype, {
 
   isOwner: function () {
     return this.owner === Meteor.userId();
+  },
+
+  updateStatus: function(newStatus, employee) {
+    var auditLogEntry = { timestamp: new Date(), office: this.office, old_status: this.status, status: newStatus, employee: employee };
+    Visitors.update({_id: this._id}, { $set: { status: newStatus }, $push: { audit_log: auditLogEntry }});
   }
 });
 
