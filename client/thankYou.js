@@ -1,10 +1,20 @@
+Template.thankYou.rendered = function () {
+  window.setTimeout(redirect, 15000);
+};
+
+var redirect = function () {
+  var office = Session.get("office");
+  if ( office !== "" && office !== undefined && office !== "undefined")
+    Router.go("/loc/" + office);
+  else
+    Router.go("/");
+};
+
 Template.thankYou.events({
-  'click .thankYou-button': function (e) {
+  'click #new-person': function (e) {
     e.preventDefault();
 
-    var office = Session.get("office");
-
-    Router.go("/"+office);
+    redirect();
   }
 });
 
@@ -34,7 +44,7 @@ var employeeCount =  function() {
   var count = Meteor.users.find({
     lastLoggedInAt: { $gte: beginning_of_today }
   }).count();
-  return count > 0 ? count : 1;
+  return count > 0 ? count : 4;
 }
 
 var visitorCount = function() {
@@ -52,6 +62,6 @@ var visitorCount = function() {
 // where currentAverageWaitTime is calculated from the activity log.
 // For now, we'll use a constant number of our choosing.
 var waitTime = function() {
-  var averageMinutesWaited = 5
-  return averageMinutesWaited * visitorCount(this) / employeeCount(this)
+  var averageMinutesWaited = 5;
+  return Math.ceil(averageMinutesWaited * visitorCount(this) / employeeCount(this));
 }
