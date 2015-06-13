@@ -17,6 +17,15 @@ Template.contactInfo.events({
     info["medicaid"] = $("#medicaid").val();
     info["dob"] = $("#dob").val();
 
+    if (info.first_name==="" || info.last_name==="" 
+      || info.addr1==="" || info.city==="" || info.state==="" || info.zip==="" 
+      || info.ssn==="" || info.dob==="") {
+
+      $("#submit-alert").css("display", "block");
+
+      return;
+    }
+
     obj["info"] = info;
 
     obj["program"] = Session.get("program");
