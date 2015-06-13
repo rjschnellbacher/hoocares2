@@ -1,4 +1,72 @@
 /* CSS declarations go here */
+body {
+  color: white;
+}
+
+#employee {
+  color: #666;
+}
+
+form {
+  color: black;
+}
+
+.btn {
+  background-color: rgb(77, 124, 54);
+}
+
+.btn:hover {
+  background-color: rgb(36, 68, 29);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+#program-options a.clickable, #program-options a.clickable:visited {
+  color: #ccc;
+  font-size: 64px;
+  text-align: center;
+  padding: 60px 0;
+}
+
+#reasons a.clickable, #reasons a.clickable:visited {
+  color: #ccc;
+  font-size: 32px;
+  padding: 30px;
+  text-align: center;
+}
+
+#reasons a.clickable:hover, #program-options a.clickable:hover  {
+  color: #999;
+  background-color: rgb(36, 68, 29);
+}
+
+#thank-you {
+  color: #999;
+}
+
+#index-banner {
+  background-color: #f5f3ed;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+#index-banner h4 {
+  color: #999;
+}
+
+.program-button {
+  background-color: rgb(77, 124, 54);
+  border: 1px solid white;
+  margin-bottom: -20px;
+}
+
+.reason-button {
+  background-color: rgb(77, 124, 54);
+  border: 1px solid white;
+}
+
 a#login-sign-in-link, a#login-name-link {
   cursor: pointer;
   border: none;
@@ -10,7 +78,7 @@ a#login-sign-in-link, a#login-name-link {
   padding: 0 2rem;
   text-decoration: none;
   color: #FFF;
-  background-color: #26a69a;
+  background-color: rgb(77, 124, 54);
   text-align: center;
   vertical-align: middle;
   letter-spacing: .5px;
@@ -23,6 +91,10 @@ a#login-sign-in-link, a#login-name-link {
   -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
   -moz-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+}
+
+a#login-sign-in-link:hover, a#login-name-link:hover {
+  background-color: rgb(36, 68, 29);
 }
 
 img#header-logo {

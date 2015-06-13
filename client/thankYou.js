@@ -41,7 +41,7 @@ var visitorCount = function() {
   var count = Visitors.find({
     status: 'waiting'
   }).count() - 1;
-  return count;
+  return count > 0 ? count : 0;
 }
 
 // At the moment, we aren't going to have enough data to really calculate
