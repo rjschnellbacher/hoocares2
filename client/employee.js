@@ -7,6 +7,10 @@ Template.visitorList.helpers({
 Template.helpingList.helpers({
   visitors: function() {
     return Visitors.find({ status: 'in progress' });
+  },
+
+  employee: function() {
+    return this.audit_log[0].employee.username;
   }
 });
 
