@@ -4,6 +4,10 @@ Template.visitorList.helpers({
   }
 });
 
+Template.registerHelper('since', function() {
+  return moment(this.audit_log[0].timestamp).format('h:mm a');
+});
+
 Template.helpingList.helpers({
   visitors: function() {
     return Visitors.find({ status: 'in progress' });
